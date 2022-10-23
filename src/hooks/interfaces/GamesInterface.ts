@@ -1,14 +1,14 @@
-export interface Data {
-    data: GamesInterface[];
-}
-
 export interface GamesInterface {
-    id: string;
-    title: string;
-    bannerUrl: string;
-    _count: Count;
+    _count: {
+        gameId: A[];
+    };
+    gameId: string;
 }
-
-export interface Count {
-    ads: number;
+interface A {
+    gameId: number;
+}
+export interface TwGame {
+    box_art_url: string;
+    id: string;
+    name: string;
 }

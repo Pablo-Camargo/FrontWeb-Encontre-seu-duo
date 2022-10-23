@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import * as Dialog from "@radix-ui/react-dialog";
 
-import { listAllGames } from "./hooks/getDatagames";
+import { getOauth } from "./hooks/getOauthTwitch";
 
 import { CreateAdDou } from "./components/CreateAdDuo/CreateAdDuou";
 import { GameBanner } from "./components/GameBanner/GameBanner";
@@ -12,13 +12,13 @@ import "./styles/main.css";
 
 import logo from "./assets/Logo.png";
 
-import { GamesInterface } from "./hooks/interfaces/GamesInterface";
+import { TwGame } from "./hooks/interfaces/GamesInterface";
 
 function App() {
-    const [games, setGames] = useState<GamesInterface[]>([]);
+    const [gamess, setTw] = useState<TwGame[]>([]);
 
     useEffect(() => {
-        listAllGames().then((resp) => setGames(resp));
+        getOauth().then((resp) => setTw(resp.data));
     }, []);
 
     return (
@@ -32,13 +32,17 @@ function App() {
                 está aqui.
             </h1>
             <div className="grid grid-cols-6 gap-6 mt-16">
-                {games.map((a) => {
+                {gamess.map((a) => {
+                    let newUrl = a.box_art_url
+                        .replace("{width}", "188")
+                        .replace("{height}", "250");
+
                     return (
                         <GameBanner
+                            key={a.id}
                             id={a.id}
-                            bannerUrl={a.bannerUrl}
-                            title={a.title}
-                            adsCount={a._count.ads}
+                            box_art_url={newUrl}
+                            name={a.name}
                         />
                     );
                 })}

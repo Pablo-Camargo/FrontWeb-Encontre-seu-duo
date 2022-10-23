@@ -8,17 +8,17 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Input } from "../Field/Input/Input";
 import Field from "../Field/Field";
 
-import { listAllGames } from "../../hooks/getDatagames";
-import { GamesInterface } from "../../hooks/interfaces/GamesInterface";
+import { getOauth } from "../../hooks/getOauthTwitch";
+import { TwGame } from "../../hooks/interfaces/GamesInterface";
 
 import { GameController, Check, CaretDown } from "phosphor-react";
 export function Form() {
-    const [games, setGames] = useState<GamesInterface[]>([]);
+    const [gamess, setTw] = useState<TwGame[]>([]);
     const [week, setWeek] = useState<string[]>([]);
     const [chatVoice, setChatVoice] = useState(false);
 
     useEffect(() => {
-        listAllGames().then((resp) => setGames(resp));
+        getOauth().then((resp) => setTw(resp.data));
     }, []);
 
     async function hendleCreateAd(e: FormEvent) {
@@ -76,7 +76,7 @@ export function Form() {
                                                     
                                                 "
                             >
-                                {games.map((game) => {
+                                {gamess.map((game) => {
                                     return (
                                         <Select.Item
                                             value={game.id}
@@ -85,7 +85,7 @@ export function Form() {
                                             className=" text-sm py-3 px-4 flex items-center justify-between "
                                         >
                                             <Select.ItemText>
-                                                {game.title}
+                                                {game.name}
                                             </Select.ItemText>
                                             <Select.ItemIndicator>
                                                 <Check size={23} />
